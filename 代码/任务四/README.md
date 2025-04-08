@@ -121,3 +121,6 @@ def extract_features(mode='freq', top_n=100):
         return X.toarray()  # 返回TF-IDF矩阵
 ```
 
+
+# 增加模型评估指标，如图，代码在文件main11_classify.ipynb
+<img src="https://github.com/KURIYAMA595/KUKUKU/blob/main/images/lie_1.png" alt="没啥用用的图片">
