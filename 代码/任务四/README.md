@@ -91,3 +91,33 @@ labels = np.array([1]*127 + [0]*24)
 
 想要实现高频词/TF-IDF特征模式的切换，我们可以在原有代码中增加TF-IDF支持，通过参数控制模式切换
 
+```
+from sklearn.feature_extraction.text import TfidfVectorizer
+import jieba
+
+def tokenizer(text):
+
+    text = re.sub(r'[.【】0-9、——。，！~\*]', '', text)
+    return [word for word in jieba.cut(text) if len(word) > 1]
+
+def extract_features(mode='freq', top_n=100):
+    """特征提取模式切换
+    :param mode: 'freq'高频词模式 | 'tfidf' TF-IDF模式
+    :param top_n: 特征维度
+    """
+    # 读取所有邮件文本
+    texts = []
+    for i in range(151):
+        with open(f'邮件_files/{i}.txt', 'r', encoding='utf-8') as f:
+            texts.append(' '.join(tokenizer(f.read())))  # 注意空格连接分词结果
+    
+    if mode == 'freq':  # 原高频词模式
+        # ...（原有get_top_words逻辑）
+        return vector  # 返回词频矩阵
+    
+    elif mode == 'tfidf':  # TF-IDF模式
+        tfidf = TfidfVectorizer(max_features=top_n, tokenizer=tokenizer)
+        X = tfidf.fit_transform(texts)
+        return X.toarray()  # 返回TF-IDF矩阵
+```
+
